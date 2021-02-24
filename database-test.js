@@ -1,14 +1,22 @@
-const sqlite = require('sqlite');
+const {Pool} = require('pg');
+
+const pool = new Pool({
+  user: 'giarinogarcia',
+  host: 'localhost',
+  database: 'auth',
+  password: 'sun2valley',
+  port: 5432
+})
 
 async function setup() {
-    const db = await sqlite.open('./mydb.sqlite');
-    await db.migrate({force: 'last'});
+    pool.query
+    const people = await pool.query('SELECT * FROM person');
+    console.log('ALL PEOPLE', JSON.stringify(people.rows, null, 2));
 
-    const people = await db.all('SELECT * FROM person');
-    console.log('ALL PEOPLE', JSON.stringify(people, null, 2));
-
-    const vehicles = await db.all('SELECT * FROM vehicle');
-    console.log('ALL VEHICLES', JSON.stringify(vehicles, null, 2));
+    const vehicles = await pool.query('SELECT * FROM vehicle');
+    console.log('ALL VEHICLES', JSON.stringify(vehicles.rows, null, 2));
+    
+    process.exit()
 }
 
 setup();

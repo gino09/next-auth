@@ -1,9 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import sqlite from 'sqlite';
+import { pool } from '../../../api/db'
 
 export default async function getAllVehicles(req: NextApiRequest, res: NextApiResponse) {
-    const db = await sqlite.open('./mydb.sqlite');
-    const vehicle = await db.all('select * from vehicle');
+    const vehicle = await pool.query('SELECT * FROM vehicle');
 
-    res.json(vehicle);
+    res.json(vehicle.rows);
 } 
